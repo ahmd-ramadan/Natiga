@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { natigaCtrl } = require("../controllers/natiga.controller");
-const { asyncHandler } = require("../middlewares/asynchandler");
+const { asyncHandler } = require("../middlewares/asyncHandler");
 
 router.post(
   "/read-students-data",
