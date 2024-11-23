@@ -1,0 +1,189 @@
+'use client'
+
+import { getYearName } from "@/utils/yearName";
+import { IStudent } from "./Content";
+import confetti from 'canvas-confetti';
+import { useEffect } from "react";
+
+
+interface IStudentGradesProps {
+    toggleContent: (value: boolean) => void;
+    student: IStudent;
+}
+
+const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
+
+    const {
+        code,
+        year,
+        name,
+        percent,
+        ar,
+        en,
+        ma,
+        sc,
+        so
+    } = student;
+
+    const isFullYear = year > 3;
+    
+    const getFullMark = () => {
+        return (
+            (ar.final || 0) + 
+            (en.final || 0) + 
+            (ma.final || 0) + 
+            (isFullYear ? (sc.final || 0) + (so.final || 0) : 0)
+        );
+    };
+    
+    const getFinalGrade = (): number => {
+        return ar.grade + en.grade + ma.grade + (isFullYear ? sc.grade + so.grade : 0 );
+    }
+
+    const getPercent = (): number => {
+        return Math.floor((getFinalGrade() * 100) / getFullMark());
+    }
+
+    // Trigger confetti if the percentage is greater than or equal to the required percentage
+    useEffect(() => {
+        const studentPercent = getPercent();
+        if (studentPercent >= percent) {
+            confetti({
+                particleCount: 600,
+                spread: 200,
+                origin: { y: 0.6 },
+            });
+        }
+    }, [percent, getPercent]);
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
+            <div className="md:col-span-2">
+                <h1 className="text-2xl font-bold text-primary text-center">عرض درجات الطالب</h1>
+            </div>
+
+            <div className="bg-black text-white border border-gray-200 rounded-md shadow-md flex flex-col gap-2 p-2">
+                <h2 className="text-lg font-bold">بيانات الطالب</h2>
+                <hr />
+                <div className="flex items-center gap-2">
+                    <p>الإسم:</p>
+                    <p>{name}</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <p>كود الطالب:</p>
+                    <p>{code}</p>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                    <p>الصف:</p>
+                    <p>{ getYearName(year) }</p>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                    <p>الدرجة النهائية:</p>
+                    <p>{getFinalGrade()} من {getFullMark()}</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <p>النسبة المئوية:</p>
+                    <p>{getPercent()}%</p>
+                </div>
+            </div>
+
+            <div className="bg-black text-white border border-gary-200 rounded-md shadow-md flex flex-col gap-2 p-2">
+                <h2 className="text-lg font-bold">درجات المواد</h2>
+                <hr />
+                
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table className="w-full text-lg ext-left rtl:text-right">
+                        <thead className="text-lg font-semibold text-black uppercase bg-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    المادة
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    الدرجة 
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    درجة الطالب
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-b ">
+                                <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                    اللغة العربية
+                                </th>
+                                <td className="px-6 py-4">
+                                    { ar.final }
+                                </td>
+                                <td className="px-6 py-4">
+                                    { ar.grade }
+                                </td>
+                            </tr>
+                            <tr className="border-b">
+                                <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                    اللغة الانجليزية
+                                </th>
+                                <td className="px-6 py-4">
+                                    { en.final }
+                                </td>
+                                <td className="px-6 py-4">
+                                    { en.grade }
+                                </td>
+                            </tr>
+                            <tr className="border-b ">
+                                <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                    الرياضيات
+                                </th>
+                                <td className="px-6 py-4">
+                                    { ma.final }
+                                </td>
+                                <td className="px-6 py-4">
+                                    { ma.grade }
+                                </td>
+                            </tr>
+                            { isFullYear && <>
+                                <tr className="border-b">
+                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                        العلوم
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        { sc.final }
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        { sc.grade }
+                                    </td>
+                                </tr>
+                                <tr className="">
+                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                        الدراسات الإجتماعية
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        { so.final }
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        { so.grade }
+                                    </td>
+                                </tr> </> 
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div className="md:col-span-2">
+                <button 
+                    onClick={() => toggleContent(true)}
+                    className="bg-primary flex items-center gap-2 justify-center text-white w-full p-2"
+                >
+                    <p>رجوع</p>
+                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 16L15 12M15 12L11 8M15 12H3M4.51555 17C6.13007 19.412 8.87958 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C8.87958 3 6.13007 4.58803 4.51555 7" stroke="#fffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                </button>
+            </div>
+        </div>
+    );
+}
+
+export default StudentGrades;
