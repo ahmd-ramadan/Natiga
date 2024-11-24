@@ -4,6 +4,12 @@ import { getYearName } from "@/utils/yearName";
 import { IStudent } from "./Content";
 import confetti from 'canvas-confetti';
 import { useEffect } from "react";
+import Image from "next/image";
+import ProfileIcon from "./icons/Profile";
+import CodeIcon from "./icons/Code";
+import YearIcon from "./icons/Year";
+import FinalGradeIcon from "./icons/FinalGrade";
+import PercentIcon from "./icons/Percent";
 
 
 interface IStudentGradesProps {
@@ -57,45 +63,50 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
     }, [percent, getPercent]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto mt-4">
             <div className="md:col-span-2">
-                <h1 className="text-2xl font-bold text-primary text-center">عرض درجات الطالب</h1>
+                <h1 className="text-3xl font-extrabold text-black text-center">عرض درجات الطالب</h1>
             </div>
 
-            <div className="bg-black text-white border border-gray-200 rounded-md shadow-md flex flex-col gap-2 p-2">
+            <div className="bg-primary font-semibold text-white border border-gray-200 rounded-md shadow-md flex flex-col gap-2 p-2">
                 <h2 className="text-lg font-bold">بيانات الطالب</h2>
                 <hr />
-                <div className="flex items-center gap-2">
-                    <p>الإسم:</p>
-                    <p>{name}</p>
+                <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
+                    <ProfileIcon />
+                    <p className="">الإسم:</p>
+                    <p className="text-secondary">{name}</p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
+                    <CodeIcon />
                     <p>كود الطالب:</p>
-                    <p>{code}</p>
+                    <p className="text-secondary">{code}</p>
                 </div>
                 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
+                    <YearIcon />
                     <p>الصف:</p>
-                    <p>{ getYearName(year) }</p>
+                    <p className="text-secondary">{ getYearName(year) }</p>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                    <p>الدرجة النهائية:</p>
-                    <p>{getFinalGrade()} من {getFullMark()}</p>
+                <div className="flex items-center gap-2 w-full px-2 py-1 text-primary bg-white rounde-md">
+                    <FinalGradeIcon />
+                    <p>المجموع الكلي:</p>
+                    <p className="text-secondary">{getFinalGrade()} من {getFullMark()}</p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
+                    <PercentIcon />
                     <p>النسبة المئوية:</p>
-                    <p>{getPercent()}%</p>
+                    <p className="text-secondary">{getPercent()}%</p>
                 </div>
             </div>
 
-            <div className="bg-black text-white border border-gary-200 rounded-md shadow-md flex flex-col gap-2 p-2">
+            <div className="bg-primary text-white font-semibold border border-gary-200 rounded-md shadow-md flex flex-col gap-2 p-2">
                 <h2 className="text-lg font-bold">درجات المواد</h2>
                 <hr />
                 
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div className="relative overflow-x-auto sm:rounded-lg">
                     <table className="w-full text-lg ext-left rtl:text-right">
                         <thead className="text-lg font-semibold text-black uppercase bg-gray-400">
                             <tr>
@@ -118,7 +129,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                 <td className="px-6 py-4">
                                     { ar.final }
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-secondary">
                                     { ar.grade }
                                 </td>
                             </tr>
@@ -126,21 +137,21 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                 <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
                                     اللغة الانجليزية
                                 </th>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 ">
                                     { en.final }
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-secondary">
                                     { en.grade }
                                 </td>
                             </tr>
-                            <tr className="border-b ">
+                            <tr className="border-b">
                                 <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
                                     الرياضيات
                                 </th>
                                 <td className="px-6 py-4">
                                     { ma.final }
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-secondary">
                                     { ma.grade }
                                 </td>
                             </tr>
@@ -152,7 +163,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                     <td className="px-6 py-4">
                                         { sc.final }
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-secondary">
                                         { sc.grade }
                                     </td>
                                 </tr>
@@ -163,7 +174,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                     <td className="px-6 py-4">
                                         { so.final }
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-secondary">
                                         { so.grade }
                                     </td>
                                 </tr> </> 
