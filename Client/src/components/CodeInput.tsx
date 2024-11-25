@@ -44,7 +44,7 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
                 // className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl"
             >
                 👋 مرحبا بك في مركز 
-                <span className="block text-3xl sm:text-6xl font-extrabold text-primary mt-2">اقْرَأ وَارْتَقِ التعليمي 👨🏻‍🎓👩🏻‍🎓</span>
+                <span className="block text-3xl sm:text-6xl font-extrabold text-primary mt-2git status">اقْرَأ وَارْتَقِ التعليمي 👨🏻‍🎓👩🏻‍🎓</span>
             </h1>
 
             <p className="mx-auto mt-8 max-w-xl sm:text-xl/relaxedfont-semibold text-lg">
@@ -66,7 +66,7 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
                                 className="flex-1 focus:outline-none font-semibold text-secondary"
                             />
                     </div>
-                    { codeInputError && <p className="text-red-600 font-semibold w-full">{codeInputError}</p> }
+                    { codeInputError && <p className="text-secondary font-semibold w-full">{codeInputError}</p> }
 
                     <button
                         type="submit"
