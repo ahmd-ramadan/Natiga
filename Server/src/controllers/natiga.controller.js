@@ -25,18 +25,25 @@ module.exports.natigaCtrl = {
         code: row.code,
         name: row.name,
         year: row.year,
-        ar: row.ar,
-        en: row?.en,
-        ma: row?.ma,
-        sc: row?.sc,
-        so: row?.so,
+        ar: row?.ar || 0,
+        en: row?.en || 0,
+        ma: row?.ma || 0,
+        sc: row?.sc || 0,
+        so: row?.so || 0,
       };
       studentsData.push(studentData);
     }
 
     //! Add students data to database
     for (const student of studentsData) {
-      await Student.create(student);
+      if (student?.code) {
+        const studentExist = await Student.findOne({ code: student.code });
+        if (!studentExist) {
+          await Student.create(student);
+        } else {
+          await Student.updateOne({ code: student.code }, student);
+        }
+      }
     }
 
     res.status(200).json({
@@ -55,18 +62,25 @@ module.exports.natigaCtrl = {
       const materialData = {
         year: row.year,
         percent: row.percent,
-        ar: row.ar,
-        en: row?.en,
-        ma: row?.ma,
-        sc: row?.sc,
-        so: row?.so,
+        ar: row?.ar || 0,
+        ma: row?.ma || 0,
+        en: row?.en || 0,
+        sc: row?.sc || 0,
+        so: row?.so || 0,
       };
       materialsData.push(materialData);
     }
 
     //! Add students data to database
     for (const material of materialsData) {
-      await Material.create(material);
+      if (material?.year) {
+        const materialExist = await Material.findOne({ year: material.year });
+        if (!materialExist) {
+          await Material.create(material);
+        } else {
+          await Material.updateOne({ year: material.year }, material);
+        }
+      }
     }
 
     res.status(200).json({
@@ -107,7 +121,7 @@ module.exports.natigaCtrl = {
         final: materialsForYear?.ar,
       },
       en: {
-        grade: student?.ar,
+        grade: student?.en,
         final: materialsForYear?.en,
       },
       ma: {
