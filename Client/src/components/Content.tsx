@@ -2,6 +2,7 @@
 import { useState } from "react";
 import CodeInput from "./CodeInput";
 import StudentGrades from "./StudntGrades";
+import Note from "./Note";
 
 export interface IMaterial {
     grade: number;
@@ -28,7 +29,8 @@ const Content = () => {
             <section className="w-full">
                 <div className="mx-auto max-w-screen-xl px-4 pb-8 lg:flex lg:items-center">
                     { content ? 
-                        <CodeInput toggleContent={toggleContent} setStudent={setStudent}></CodeInput>
+                        // <CodeInput toggleContent={toggleContent} setStudent={setStudent}></CodeInput>
+                        <Note></Note>
                     : 
                         <StudentGrades toggleContent={toggleContent} student={student}></StudentGrades>
                     }
