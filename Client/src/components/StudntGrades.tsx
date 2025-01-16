@@ -212,15 +212,16 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
             >
                 { stdPercent >= percent && 
                     <div className="w-full flex flex-col items-center justify-center gap-4">
-                        <p className="text-center text-3xl font-bold text-red-700">تهانينا 🎉🎉</p>
-                        <p className="text-center text-secondary text-lg md:text-2xl font-semibold">مبروووك أنت من الأوائل في هذه الامتحانات </p>
-                        <button className="bg-primary text-white font-semibold p-2 rounded-md shadow-md" onClick={() => setMakeCelebrate(true)}>إحتفال</button>
+                        <p className="text-center text-3xl font-bold text-secondary">تهانينا 🎉🎉</p>
+                        <p className="text-center text-[#F26B0F] text-lg md:text-2xl font-semibold">مبروووك أنت من الأوائل في هذه الامتحانات </p>
+                        <button className="bg-primary text-white font-semibold p-2 rounded-md shadow-md" onClick={() => setMakeCelebrate(true)}>أضغط للأحتفال</button>
                     </div>
                 } 
                 { stdPercent <= 40 &&
                     <div className="w-full flex flex-col items-center justify-center gap-4">
                         <FailedIcon size="80px"/>
-                        <p className="text-center text-black text-xl md:text-2xl font-semibold"> للأسف .. لقد رسبت في هذه الامتحانات </p>
+                        {/* <p className="text-center text-black text-xl md:text-2xl font-semibold"> للأسف .. لقد رسبت في هذه الامتحانات </p> */}
+                        <p className="text-center text-black text-xl md:text-2xl font-semibold">الفشل ليس عكس النجاح بل هو جزء من النجاح .. لا تيأس 💮</p>
                     </div>
 
                 }
