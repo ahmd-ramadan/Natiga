@@ -23,11 +23,11 @@ const materialSchema = new mongoose.Schema(
     },
     sc: {
       type: Number,
-      required: this.year > 3,
+      required: true,
     },
     so: {
       type: Number,
-      required: this.year > 3,
+      required: true,
     },
   },
   {

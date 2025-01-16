@@ -1,0 +1,4 @@
+const getYearGrades = async (year) => {
+    const year = await Material.findOne({ year });
+    return year;
+}

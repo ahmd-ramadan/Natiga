@@ -14,6 +14,10 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    place: {
+      type: Number,
+      required: true
+    },
     ar: {
       type: Number,
       required: true,
@@ -28,11 +32,11 @@ const studentSchema = new mongoose.Schema(
     },
     sc: {
       type: Number,
-      required: this.year > 3,
+      required: true,
     },
     so: {
       type: Number,
-      required: this.year > 3,
+      required: true,
     },
   },
   {

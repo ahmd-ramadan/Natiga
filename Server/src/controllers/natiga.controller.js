@@ -3,9 +3,10 @@ const path = require("path");
 const Student = require("../models/Student");
 const CustomError = require("../utils/customError");
 const Material = require("../models/Material");
+const { assignPlacesToStudents } = require("../utils/assignPlacesToStudents");
 
 const readSheetData = (fileName) => {
-  const filePath = path.join(__dirname, "../../data/", fileName);
+  const filePath = path.join(__dirname, "..", "..", "data", fileName);
   const workbook = XLSX.readFile(filePath);
   const sheetName = workbook.SheetNames[0];
   const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
@@ -16,10 +17,10 @@ const readSheetData = (fileName) => {
 module.exports.natigaCtrl = {
   readStudentsDataFromSheet: async (req, res, next) => {
     //! Read students data from sheet
-    const studentsData = readSheetData(process.env.STUDENTS_FILE_NAME);
+    const studentsSheetData = readSheetData(process.env.STUDENTS_FILE_NAME);
 
     //! Validte student data
-    let studentsSheetData = [];
+    let yearsStudentsArray = Array.from({ length: 13 }, () => []); 
     for (const row of studentsSheetData) {
       const studentData = {
         code: row.code,
@@ -31,17 +32,24 @@ module.exports.natigaCtrl = {
         sc: row?.sc || 0,
         so: row?.so || 0,
       };
-      studentsData.push(studentData);
+      yearsStudentsArray[row.year].push(studentData);
     }
-
+    
+    //! Assign place to each student
+    const finalStudentsArray = await assignPlacesToStudents(yearsStudentsArray);
+    
     //! Add students data to database
-    for (const student of studentsData) {
-      if (student?.code) {
-        const studentExist = await Student.findOne({ code: student.code });
-        if (!studentExist) {
-          await Student.create(student);
-        } else {
-          await Student.updateOne({ code: student.code }, student);
+    for (const yearStudentsArray of finalStudentsArray) {
+      if (yearStudentsArray?.length > 0) {
+        for (const student of yearStudentsArray) {
+          if (student?.code) {
+            const studentExist = await Student.findOne({ code: student.code });
+            if (!studentExist) {
+              await Student.create(student);
+            } else {
+              await Student.updateOne({ code: student.code }, student);
+            }
+          }
         }
       }
     }
@@ -54,14 +62,14 @@ module.exports.natigaCtrl = {
 
   readMatrielsDataFromSheet: async (req, res, next) => {
     //! Read students data from sheet
-    const materialsData = readSheetData(process.env.MATERIALS_FILE_NAME);
+    const materialsSheetData = readSheetData(process.env.MATERIALS_FILE_NAME);
 
     //! Validte student data
-    let materialsSheetData = [];
+    let materialsData = [];
     for (const row of materialsSheetData) {
       const materialData = {
         year: row.year,
-        percent: row.percent,
+        percent: row?.percent || 0,
         ar: row?.ar || 0,
         ma: row?.ma || 0,
         en: row?.en || 0,
@@ -136,6 +144,7 @@ module.exports.natigaCtrl = {
         grade: student?.so,
         final: materialsForYear?.so,
       },
+      place: student?.place,
     };
 
     res.status(200).json({
