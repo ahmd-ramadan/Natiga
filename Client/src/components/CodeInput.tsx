@@ -48,7 +48,7 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
             </h1>
 
             <p className="mx-auto mt-8 max-w-xl sm:text-xl/relaxedfont-semibold text-lg">
-                لعرض نتيجتك في امتحانات منتصف الترم الأول لعام 2024 - 2025 استخدم كود الطالب
+                لعرض نتيجتك في امتحانات الترم الأول لعام 2024 - 2025 استخدم كود الطالب
             </p>
 
             <div className="w-full mt-8">
@@ -66,7 +66,7 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
                                 className="flex-1 focus:outline-none font-semibold text-secondary"
                             />
                     </div>
-                    { codeInputError && <p className="text-secondary font-semibold w-full">{codeInputError}</p> }
+                    { codeInputError && <p className="text-red-600 font-semibold w-full">{codeInputError}</p> }
 
                     <button
                         type="submit"

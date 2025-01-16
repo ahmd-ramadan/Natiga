@@ -3,13 +3,16 @@
 import { getYearName } from "@/utils/yearName";
 import { IStudent } from "./Content";
 import confetti from 'canvas-confetti';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ProfileIcon from "./icons/Profile";
 import CodeIcon from "./icons/Code";
 import YearIcon from "./icons/Year";
 import FinalGradeIcon from "./icons/FinalGrade";
 import PercentIcon from "./icons/Percent";
+import RankIcon from "./icons/Rank";
+import Modal from "./Modal";
+import FailedIcon from "./icons/Failed";
 
 
 interface IStudentGradesProps {
@@ -18,7 +21,6 @@ interface IStudentGradesProps {
 }
 
 const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
-
     const {
         code,
         year,
@@ -28,11 +30,11 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
         en,
         ma,
         sc,
-        so
+        so,
+        place
     } = student;
 
     const isFullYear = year > 3;
-    
     const getFullMark = () => {
         return (
             (ar.final || 0) + 
@@ -49,18 +51,23 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
     const getPercent = (): number => {
         return Math.floor((getFinalGrade() * 100) / getFullMark());
     }
+    const stdPercent = getPercent();
+
+    const [modalIsOpen, setModalIsOpen] = useState(true);
 
     // Trigger confetti if the percentage is greater than or equal to the required percentage
+    const [makeCelebrate, setMakeCelebrate] = useState<boolean>(false);
     useEffect(() => {
-        const studentPercent = getPercent();
-        if (studentPercent >= percent) {
+        if (makeCelebrate) {
             confetti({
                 particleCount: 600,
                 spread: 200,
                 origin: { y: 0.6 },
             });
         }
-    }, [percent, getPercent]);
+        setMakeCelebrate(false);
+    }, [makeCelebrate, setMakeCelebrate]);
+    
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto mt-4">
@@ -75,6 +82,11 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                     <ProfileIcon />
                     <p className="">الإسم:</p>
                     <p className="text-secondary">{name}</p>
+                </div>
+                <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
+                    <RankIcon />
+                    <p className="">المركز:</p>
+                    <p className="text-secondary">{place}</p>
                 </div>
 
                 <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
@@ -98,7 +110,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                 <div className="flex items-center gap-2 w-full p-2 text-primary bg-white rounde-md">
                     <PercentIcon />
                     <p>النسبة المئوية:</p>
-                    <p className="text-secondary">{getPercent()}%</p>
+                    <p className="text-secondary">{stdPercent}%</p>
                 </div>
             </div>
 
@@ -193,6 +205,27 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 16L15 12M15 12L11 8M15 12H3M4.51555 17C6.13007 19.412 8.87958 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C8.87958 3 6.13007 4.58803 4.51555 7" stroke="#fffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                 </button>
             </div>
+
+            { (stdPercent <= 40 || stdPercent >= percent) && <Modal
+                closeModal={() => setModalIsOpen(false)}
+                isOpen={modalIsOpen}   
+            >
+                { stdPercent >= percent && 
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <p className="text-center text-3xl font-bold text-red-700">تهانينا 🎉🎉</p>
+                        <p className="text-center text-secondary text-lg md:text-2xl font-semibold">مبروووك أنت من الأوائل في هذه الامتحانات </p>
+                        <button className="bg-primary text-white font-semibold p-2 rounded-md shadow-md" onClick={() => setMakeCelebrate(true)}>إحتفال</button>
+                    </div>
+                } 
+                { stdPercent <= 40 &&
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <FailedIcon size="80px"/>
+                        <p className="text-center text-black text-xl md:text-2xl font-semibold"> للأسف .. لقد رسبت في هذه الامتحانات </p>
+                    </div>
+
+                }
+
+            </Modal> }
         </div>
     );
 }
