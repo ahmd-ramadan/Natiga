@@ -47,7 +47,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
     };
     
     const getFinalGrade = (): number => {
-        return ar.grade + en.grade + ma.grade + (isFullYear ? sc.grade + so.grade : 0 );
+        return ar.grade + en.grade + ma.grade + be.grade + (isFullYear ? sc.grade + so.grade : 0 );
     }
 
     const getPercent = (): number => {
