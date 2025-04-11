@@ -9,7 +9,8 @@ export interface IMaterial extends Document {
   en: number;
   ma: number;
   sc: number;
-  si: number;
+  so: number;
+  be: number;
 }
 
 const materialSchema: Schema = new mongoose.Schema({
@@ -38,6 +39,10 @@ const materialSchema: Schema = new mongoose.Schema({
       required:  true,
     },
     so: {
+      type: Number,
+      required: true,
+    },
+    be: {
       type: Number,
       required: true,
     },

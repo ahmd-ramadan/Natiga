@@ -31,6 +31,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
         ma,
         sc,
         so,
+        be,
         place
     } = student;
 
@@ -40,6 +41,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
             (ar.final || 0) + 
             (en.final || 0) + 
             (ma.final || 0) + 
+            (be.final || 0) + 
             (isFullYear ? (sc.final || 0) + (so.final || 0) : 0)
         );
     };
@@ -179,7 +181,7 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                         { sc.grade }
                                     </td>
                                 </tr>
-                                <tr className="">
+                                <tr className="border-b">
                                     <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
                                         الدراسات الإجتماعية
                                     </th>
@@ -188,6 +190,17 @@ const StudentGrades = ({ toggleContent, student }: IStudentGradesProps) => {
                                     </td>
                                     <td className="px-6 py-4 text-secondary">
                                         { so.grade }
+                                    </td>
+                                </tr>
+                                <tr className="">
+                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                        السلوك
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        { be.final }
+                                    </td>
+                                    <td className="px-6 py-4 text-secondary">
+                                        { be.grade }
                                     </td>
                                 </tr> </> 
                             }

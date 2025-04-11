@@ -10,6 +10,7 @@ export interface IStudent extends Document {
   ma: number;
   sc: number;
   so: number;
+  be: number;
 }
 
 const studentSchema: Schema = new mongoose.Schema({
@@ -47,6 +48,10 @@ const studentSchema: Schema = new mongoose.Schema({
       required: true,
     },
     so: {
+      type: Number,
+      required: true,
+    },
+    be: {
       type: Number,
       required: true,
     },

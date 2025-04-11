@@ -48,7 +48,7 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
             </h1>
 
             <p className="mx-auto mt-8 max-w-xl sm:text-xl/relaxedfont-semibold text-lg">
-                لعرض نتيجتك في امتحانات الترم الأول لعام 2024 - 2025 استخدم كود الطالب
+                لعرض نتيجتك في امتحانات نصف الفصل الدراسي الثاني لعام 2024 - 2025 <span className="text-secondary text-semibold">استخدم كود الطالب</span>
             </p>
 
             <div className="w-full mt-8">
