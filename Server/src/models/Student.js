@@ -38,6 +38,10 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    be: {
+      type: Number,
+      required: true,
+    }
   },
   {
     timestamps: true,

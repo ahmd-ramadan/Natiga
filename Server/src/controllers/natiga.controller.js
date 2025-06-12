@@ -31,6 +31,7 @@ module.exports.natigaCtrl = {
         ma: row?.ma || 0,
         sc: row?.sc || 0,
         so: row?.so || 0,
+        be: row?.be || 0,
       };
       yearsStudentsArray[row.year].push(studentData);
     }
@@ -75,6 +76,7 @@ module.exports.natigaCtrl = {
         en: row?.en || 0,
         sc: row?.sc || 0,
         so: row?.so || 0,
+        be: row?.be || 0,
       };
       materialsData.push(materialData);
     }
@@ -143,6 +145,10 @@ module.exports.natigaCtrl = {
       so: {
         grade: student?.so,
         final: materialsForYear?.so,
+      },
+      be: {
+        grade: student?.be,
+        final: materialsForYear?.be,
       },
       place: student?.place,
     };

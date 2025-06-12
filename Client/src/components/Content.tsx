@@ -8,6 +8,7 @@ export interface IMaterial {
     grade: number;
     final: number;
 }
+
 export interface IStudent {
     code: string;
     name: string;
@@ -18,6 +19,7 @@ export interface IStudent {
     ma: IMaterial;
     sc: IMaterial;
     so: IMaterial;
+    be: IMaterial;
     place: number;
 }
 

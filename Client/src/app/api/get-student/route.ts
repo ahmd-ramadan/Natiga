@@ -66,6 +66,10 @@ export async function GET(request: Request) {
         grade: student?.so,
         final: materialsForYear?.so,
       },
+      be: {
+        grade: student?.be,
+        final: materialsForYear?.be,
+      },
       place: student?.place,
     };
 
