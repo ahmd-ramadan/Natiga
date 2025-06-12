@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-import CodeInput from "./CodeInput";
 import StudentGrades from "./StudntGrades";
 import Note from "./Note";
 
