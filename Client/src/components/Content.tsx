@@ -30,7 +30,7 @@ const Content = () => {
     return (
         <main className="w-full">
             <section className="w-full">
-                <div className="mx-auto max-w-screen-xl px-4 pb-8 lg:flex lg:items-center">
+                <div className="flex justify-center items-center mx-auto max-w-7xl px-4 pb-8 lg:flex lg:items-center">
                     { content ? 
                         <CodeInput toggleContent={toggleContent} setStudent={setStudent}></CodeInput>
                         // <Note></Note>

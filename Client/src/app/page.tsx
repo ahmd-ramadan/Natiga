@@ -3,14 +3,9 @@ import Header from "@/components/Header";
 
 export default function Home() {
   return (
-    <div className="h-100svh">
-      {/* Header */}
-      <Header></Header>
-
-      {/* Content */}
-      <Content></Content>
-
-      {/* Footer */}
-    </div>
+    <main className="h-100svh bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      <Header />
+      <Content />
+    </main>
   );
 }

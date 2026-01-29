@@ -38,58 +38,104 @@ const CodeInput = ({ toggleContent, setStudent }: ICodeInputProps ) => {
         }
     }
     return (
-        <div className="mx-auto max-w-3xl text-center mt-4">
-            <h1
-                className="text-xl sm:text-2xl font-bold"
-                // className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl"
-            >
-                👋 مرحبا بك في مركز 
-                <span className="block text-3xl sm:text-6xl font-extrabold text-primary mt-2git status">اقْرَأ وَارْتَقِ التعليمي 👨🏻‍🎓👩🏻‍🎓</span>
-            </h1>
+        <div className="min-h-screene py-8 px-4">
+            <div className="max-w-2xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-12">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary mb-4">
+                        👋 مرحبا بك في مركز
+                    </h1>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-6">
+                        اقْرَأ وَارْتَقِ التعليمي 👨🏻‍🎓👩🏻‍🎓
+                    </h2>
+                    {process.env.NEXT_PUBLIC_PHARSE && (
+                        <p className="mx-auto max-w-xl text-lg sm:text-xl text-gray-700 font-medium leading-relaxed">
+                            {process.env.NEXT_PUBLIC_PHARSE}
+                        </p>
+                    )}
+                </div>
 
-            <p className="mx-auto mt-8 max-w-xl sm:text-xl/relaxedfont-semibold text-lg">
-                لعرض نتيجتك في إمتحانات نصف الترم الأول للعام الدراسي 2025 - 2026 <span className="text-secondary text-semibold">استخدم كود الطالب</span>
-            </p>
-
-            <div className="w-full mt-8">
-                <form className="flex flex-col gap-4">
-                    <div className="w-full flex items-center gap-2 rounded-md border border-primary bg-white p-3 text-gray-700 shadow-sm transition focus:border-primary focus:outline-none focus:ring focus:ring-yellow-400">
-                            <CodeIcon size="30px"/>
-                            <input
-                                type="code"
-                                placeholder="أدخل كود الطالب"
-                                value={codeValue}
-                                onChange={(e) => {
-                                    setCodeValue(e.target.value);
-                                    setCodeInputError("");
-                                }}
-                                className="flex-1 focus:outline-none font-semibold text-secondary"
-                            />
+                {/* Code Input Card */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div className="bg-gradient-to-l from-primary to-secondary px-6 py-4">
+                        <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                            <div className="w-1 h-8 bg-white rounded-full"></div>
+                            استخدم كود الطالب
+                        </h3>
                     </div>
-                    { codeInputError && <p className="text-red-600 font-semibold w-full">{codeInputError}</p> }
+                    <div className="p-6">
+                        <form 
+                            className="flex flex-col gap-4"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (codeValue.length === 6 && !isLoading) {
+                                    onSubmit(codeValue);
+                                }
+                            }}
+                        >
+                            <div className="relative">
+                                <div className="w-full flex items-center gap-3 rounded-xl border-2 border-gray-200 bg-gray-50 p-4 transition-all focus-within:border-primary focus-within:bg-white focus-within:shadow-md">
+                                    <div className="flex-shrink-0">
+                                        <CodeIcon size="28px"/>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength={6}
+                                        placeholder="أدخل كود الطالب (6 أرقام)"
+                                        value={codeValue}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                            setCodeValue(value);
+                                            setCodeInputError("");
+                                        }}
+                                        className="flex-1 bg-transparent focus:outline-none font-bold text-lg text-gray-900 placeholder:text-gray-400"
+                                    />
+                                    {codeValue.length > 0 && (
+                                        <div className="flex-shrink-0 text-sm font-bold text-gray-500">
+                                            {codeValue.length}/6
+                                        </div>
+                                    )}
+                                </div>
+                                {codeInputError && (
+                                    <p className="mt-2 text-red-600 font-semibold text-sm flex items-center gap-2">
+                                        <span>⚠️</span>
+                                        {codeInputError}
+                                    </p>
+                                )}
+                            </div>
 
-                    <button
-                        type="submit"
-                        disabled={codeValue.length != 6 || isLoading}
-                        onClick={() => onSubmit(codeValue)}
-                        style={{  cursor: codeValue.length != 6 || isLoading ? 'not-allowed' : 'pointer'}}
-                        className={`${isLoading ? 'bg-transparent text-primary border border-primary' : 'bg-primary text-white'} font-semibold text-lg group flex w-full items-center justify-center gap-2 rounded-md px-5 py-3 transition focus:outline-none focus:ring focus:ring-yellow-400 sm:mt-0 sm:w-auto`}
-                    >
-                        { isLoading ? 
-                            <div className="flex items-center gap-2">
-                                <p className="text-primary">تحميل ...</p>
-                                <Spinner />
-                            </div>    
-                        :
-                            <>
-                                <span>عرض النتيجة</span>
-                                <ArrowIcon color="#fff" size="30px"/>
-                            </>
-                        }
-                    </button>
-                </form>
+                            <button
+                                type="submit"
+                                disabled={codeValue.length !== 6 || isLoading}
+                                className={`
+                                    w-full font-bold text-lg py-4 px-6 rounded-xl shadow-lg 
+                                    transition-all duration-300 flex items-center justify-center gap-3
+                                    ${isLoading 
+                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                        : codeValue.length === 6
+                                            ? 'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] cursor-pointer'
+                                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                    }
+                                `}
+                            >
+                                {isLoading ? (
+                                    <div className="flex items-center gap-3">
+                                        <Spinner />
+                                        <span>جاري التحميل...</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <span>عرض النتيجة</span>
+                                        <ArrowIcon color="#fff" size="24px"/>
+                                    </>
+                                )}
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>  
+        </div>
     );
 }
 export default CodeInput;
